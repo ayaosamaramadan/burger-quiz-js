@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "build:css": "postcss input.css -o output.css",
+    "watch:css": "postcss input.css -o output.css --watch"
+  },
+  "dependencies": {
+    "toastr": "^2.1.4"
+  }
+}
