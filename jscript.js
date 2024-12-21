@@ -96,33 +96,60 @@ function updateQuestion(){
         span1.innerHTML = score + " / ";
       }
 
+      // disable all buttons after clicking one
       btnsDiv.querySelectorAll("button").forEach(button => button.disabled = true);
-      let nextBtn = document.createElement("button");
-      nextBtn.innerHTML = "Next";
-      nextBtn.classList.add(
-      "bg-green-500",
-      "hover:bg-green-600",
-      "text-white",
-      "font-bold",
-      "py-2",
-      "px-4",
-      "rounded",
-      "transition",
-      "duration-300",
-      "ease-in-out",
-      "transform",
-      "hover:scale-105",
-      "mt-4"
-      );
-      nextBtn.addEventListener("click", function(){
-        currQues++;
-        if(currQues < ques.length){
-          questio.innerHTML = "";
-          btnsDiv.innerHTML = "";
-          updateQuestion();
-        } 
-      });
-      questio.appendChild(nextBtn);
+      
+    
+      if(ques[currQues]==ques[ques.length-1]){
+        let finishBtn = document.createElement("button");
+        finishBtn.innerHTML = "Finish";
+        finishBtn.classList.add(
+        "bg-red-500",
+        "hover:bg-green-600",
+        "text-white",
+        "font-bold",
+        "py-2",
+        "px-4",
+        "rounded",
+        "transition",
+        "duration-300",
+        "ease-in-out",
+        "transform",
+        "hover:scale-105",
+        "mt-4"
+        );
+        finishBtn.addEventListener("click", function(){});
+
+        questio.appendChild(finishBtn);
+      }
+      else{
+        let nextBtn = document.createElement("button");
+        nextBtn.innerHTML = "Next";
+        nextBtn.classList.add(
+        "bg-green-500",
+        "hover:bg-green-600",
+        "text-white",
+        "font-bold",
+        "py-2",
+        "px-4",
+        "rounded",
+        "transition",
+        "duration-300",
+        "ease-in-out",
+        "transform",
+        "hover:scale-105",
+        "mt-4"
+        );
+        nextBtn.addEventListener("click", function(){
+          currQues++;
+          if(currQues < ques.length){
+            questio.innerHTML = "";
+            btnsDiv.innerHTML = "";
+            updateQuestion();
+          } 
+        });
+        questio.appendChild(nextBtn);
+      }
     } );
     btnsDiv.appendChild(btn);
   });
