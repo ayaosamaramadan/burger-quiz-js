@@ -11,9 +11,9 @@ const ques = [
   {
     question: "Which of these is a common topping on a hamburger?",
     answer: [
-      { text: "Lettuce", correct: true },
-      { text: "Tomato", correct: true },
-      { text: "Onion", correct: true },
+      { text: "Lettuce", correct: false },
+      { text: "Tomato", correct: false },
+      { text: "Onion", correct: false },
       { text: "All of the above", correct: true },
     ],
   },
@@ -29,40 +29,48 @@ const ques = [
   {
     question: "Which of these is a popular cheese choice for a cheeseburger?",
     answer: [
-      { text: "American", correct: true },
-      { text: "Cheddar", correct: true },
-      { text: "Swiss", correct: true },
+      { text: "American", correct: false },
+      { text: "Cheddar", correct: false },
+      { text: "Swiss", correct: false },
       { text: "All of the above", correct: true },
     ],
   },
   {
     question: "What is a common condiment for a hamburger?",
     answer: [
-      { text: "Ketchup", correct: true },
-      { text: "Mustard", correct: true },
-      { text: "Mayonnaise", correct: true },
+      { text: "Ketchup", correct: false },
+      { text: "Mustard", correct: false },
+      { text: "Mayonnaise", correct: false },
       { text: "All of the above", correct: true },
     ],
   },
 ];
 
 let score = 0;
+let fullScore = ques.length;
 let currQues = 0;
 let startBtn = document.getElementById("start");
 let questio = document.getElementById("ques");
+let scoreDiv = document.getElementById("score");
+let span1 = document.createElement("span");
+let title = document.createElement("h1");
+let span2 = document.createElement("span");
+let btnsDiv = document.createElement("div");
 
-function start() {
-  // hide the start button
-  startBtn.style.display = "none";
-  // show the questions
-  questio.style.display = "block";
+function updateQuestion(){
+  span1.innerHTML = score + " / ";
+  scoreDiv.appendChild(span1);
+  
+  span2.innerHTML = fullScore;
+  span2.classList.add("text-red-500");
+  scoreDiv.appendChild(span2);
+
   // show title of the question
-  let title = document.createElement("h1");
   title.innerHTML = ques[currQues].question;
   title.classList.add("text-2xl", "font-bold", "mb-4", "text-neutral-700");
   questio.appendChild(title);
   // show the answers
-  let btnsDiv = document.createElement("div");
+  
   btnsDiv.setAttribute("id", "btns");
   btnsDiv.classList.add("grid", "gap-3");
   ques[currQues].answer.forEach((ans) => {
@@ -82,8 +90,56 @@ function start() {
       "transform",
       "hover:scale-105"
     );
+    btn.addEventListener("click", function(){
+      if(ans.correct){
+        score++;
+        span1.innerHTML = score + " / ";
+      }
+
+      btnsDiv.querySelectorAll("button").forEach(button => button.disabled = true);
+      let nextBtn = document.createElement("button");
+      nextBtn.innerHTML = "Next";
+      nextBtn.classList.add(
+      "bg-green-500",
+      "hover:bg-green-600",
+      "text-white",
+      "font-bold",
+      "py-2",
+      "px-4",
+      "rounded",
+      "transition",
+      "duration-300",
+      "ease-in-out",
+      "transform",
+      "hover:scale-105",
+      "mt-4"
+      );
+      nextBtn.addEventListener("click", function(){
+        currQues++;
+        if(currQues < ques.length){
+          questio.innerHTML = "";
+          btnsDiv.innerHTML = "";
+          updateQuestion();
+        } 
+      });
+      questio.appendChild(nextBtn);
+    } );
     btnsDiv.appendChild(btn);
   });
 
   questio.appendChild(btnsDiv);
 }
+function start() {
+  // hide the start button
+  startBtn.style.display = "none";
+  // show the questions
+  questio.style.display = "block";
+
+  // show the score
+  
+ updateQuestion();
+}
+
+
+
+
