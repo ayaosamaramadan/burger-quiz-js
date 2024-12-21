@@ -151,6 +151,13 @@ function updateQuestion() {
             );
             let congBtn = document.createElement("button");
             congBtn.innerHTML = "PLAY AGAIN";
+            congBtn.addEventListener("click", function () {
+              score = 0;
+              currQues = 0;
+              questio.innerHTML = "";
+              btnsDiv.innerHTML = "";
+              updateQuestion();
+            });
             congBtn.classList.add(
               "bg-green-500",
               "hover:bg-green-600",
@@ -202,6 +209,13 @@ function updateQuestion() {
             );
             let loseBtn = document.createElement("button");
             loseBtn.innerHTML = "PLAY AGAIN";
+          loseBtn.addEventListener("click", function () {
+            score = 0;
+              currQues = 0;
+              questio.innerHTML = "";
+              btnsDiv.innerHTML = "";
+              updateQuestion();
+          });
             loseBtn.classList.add(
               "bg-green-500",
               "hover:bg-green-600",
