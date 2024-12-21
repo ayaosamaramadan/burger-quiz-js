@@ -7,73 +7,31 @@
     <title>Quiz App</title>
   </head>
   <body
-    class="bg-gradient-to-r from-orange-400 to-orange-200 flex flex-col items-center justify-start min-h-screen pt-28"
+    class="bg-gradient-to-r from-orange-400 to-orange-200 flex flex-col items-center justify-start min-h-screen pt-32"
   >
     <div class="text-center max-w-md">
-      <div class="flex flex-col items-center justify-center mb-4">
+      <div id="topdiv"class="flex flex-col items-center justify-center">
         <img
           src="./imgs/245-2453224_cute-bbq-burger-clipart.png"
           class="w-28 mb-4"
           alt="Burger Image"
         />
         <h1 class="text-blue-800 text-3xl font-extrabold">BURGER Quiz</h1>
-        <p class="text-gray-700 mb-8 text-lg">
+        <p class="text-gray-700 mb-4 text-lg">
           If you get 5 points you will get a
           <span class="text-red-500 font-bold">FREE</span> burger
         </p>
       </div>
-      <span id="score" class="text-2xl font-bold">
-        <!-- <span class="text-white">0</span>/<span class="text-red-700">5</span> -->
-      </span>
+      <span id="score" class="text-2xl font-bold"> </span>
       <div id="startORquiz">
         <button
           id="start"
-          class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105 text-lg mt-10"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:scale-105 text-lg mt-20"
           onclick="start()"
         >
           START
         </button>
-        <div id="ques" class="p-6 rounded-lg shadow-2xl hidden">
-          <!-- <h1 class="">
-            What is the main ingredient in a classic hamburger?
-          </h1>
-          <div id="btns" class="grid gap-3">
-            <button
-                class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Beef
-            </button>
-            <button
-              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Chicken
-            </button>
-            <button
-              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Pork
-            </button>
-            <button
-              class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded transition duration-300 ease-in-out transform hover:scale-105"
-            >
-              Fish
-            </button> -->
-          </div>
-        </div>
-
-         <!-- <div id="cong" class="text-center mt-8 p-6 rounded-lg shadow-lg border-2 border-yellow-500">
-            <h1 class="text-yellow-800 text-2xl font-bold mb-4">Congratulations, you have won a free burger! 🤭🎉 </h1>
-            <img src="./imgs/suc.gif" alt="Success Gif" class="w-44 h-44 mx-auto rounded-full border-4 border-yellow-800 shadow-lg transform hover:scale-110 transition duration-300 ease-in-out">
-            <button>PLAY AGAIN</button>
-          </div>  -->
-
-          <!-- <div id="lose" class="text-center mt-8 p-6 rounded-lg shadow-lg border-2 border-yellow-500">
-            <h1 class="text-yellow-800 text-2xl font-bold mb-4">OPS TRY AGAIN 😜</h1>
-                <span class="text-yellow-800 text-xl font-semibold">Your score is x</span>
-              <img  class="w-44 h-44 mx-auto rounded-full border-4 border-yellow-800 shadow-lg transform hover:scale-110 transition duration-300 ease-in-out" src="./imgs/trAGAIN.gif" alt="">
-              <button>PLAY AGAIN</button>
-          </div> -->
-        </div>
+        <div id="ques" class="p-6 rounded-lg shadow-2xl hidden mt-5"></div>
       </div>
     </div>
     <script src="./jscript.js"></script>

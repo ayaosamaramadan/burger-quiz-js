@@ -56,6 +56,8 @@ let span1 = document.createElement("span");
 let title = document.createElement("h1");
 let span2 = document.createElement("span");
 let btnsDiv = document.createElement("div");
+let body = document.querySelector("body");
+let topdiv = document.getElementById("topdiv");
 
 function updateQuestion() {
   span1.innerHTML = score + " / ";
@@ -177,14 +179,12 @@ function updateQuestion() {
             congDiv.appendChild(congImg);
             congDiv.appendChild(congBtn);
             questio.appendChild(congDiv);
-          }
-          else{
+          } else {
             questio.innerHTML = "";
             btnsDiv.innerHTML = "";
             let loseDiv = document.createElement("div");
             let loseH1 = document.createElement("h1");
-            loseH1.innerHTML =
-              "OPS TRY AGAIN 😜";
+            loseH1.innerHTML = "OPS TRY AGAIN 😜";
             loseH1.classList.add(
               "text-yellow-800",
               "text-2xl",
@@ -209,13 +209,13 @@ function updateQuestion() {
             );
             let loseBtn = document.createElement("button");
             loseBtn.innerHTML = "PLAY AGAIN";
-          loseBtn.addEventListener("click", function () {
-            score = 0;
+            loseBtn.addEventListener("click", function () {
+              score = 0;
               currQues = 0;
               questio.innerHTML = "";
               btnsDiv.innerHTML = "";
               updateQuestion();
-          });
+            });
             loseBtn.classList.add(
               "bg-green-500",
               "hover:bg-green-600",
@@ -278,7 +278,8 @@ function start() {
   // show the questions
   questio.style.display = "block";
 
-  // show the score
-
   updateQuestion();
+
+  body.style.cssText = "padding-top: 50px;";
+  topdiv.style.cssText = "animation: fadeIn 1s forwards;";
 }
