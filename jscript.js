@@ -57,10 +57,10 @@ let title = document.createElement("h1");
 let span2 = document.createElement("span");
 let btnsDiv = document.createElement("div");
 
-function updateQuestion(){
+function updateQuestion() {
   span1.innerHTML = score + " / ";
   scoreDiv.appendChild(span1);
-  
+
   span2.innerHTML = fullScore;
   span2.classList.add("text-red-500");
   scoreDiv.appendChild(span2);
@@ -70,15 +70,15 @@ function updateQuestion(){
   title.classList.add("text-2xl", "font-bold", "mb-4", "text-neutral-700");
   questio.appendChild(title);
   // show the answers
-  
+
   btnsDiv.setAttribute("id", "btns");
   btnsDiv.classList.add("grid", "gap-3");
   ques[currQues].answer.forEach((ans) => {
     let btn = document.createElement("button");
     btn.innerHTML = ans.text;
     btn.classList.add(
-      "bg-blue-500",
-      "hover:bg-blue-600",
+      "bg-green-500",
+      "hover:bg-green-600",
       "text-white",
       "font-bold",
       "py-2",
@@ -90,67 +90,118 @@ function updateQuestion(){
       "transform",
       "hover:scale-105"
     );
-    btn.addEventListener("click", function(){
-      if(ans.correct){
+    btn.addEventListener("click", function () {
+      if (ans.correct) {
         score++;
         span1.innerHTML = score + " / ";
       }
 
       // disable all buttons after clicking one
-      btnsDiv.querySelectorAll("button").forEach(button => button.disabled = true);
-      
-    
-      if(ques[currQues]==ques[ques.length-1]){
+      btnsDiv
+        .querySelectorAll("button")
+        .forEach((button) => (button.disabled = true));
+
+      if (ques[currQues] == ques[ques.length - 1]) {
         let finishBtn = document.createElement("button");
         finishBtn.innerHTML = "Finish";
         finishBtn.classList.add(
-        "bg-red-500",
-        "hover:bg-green-600",
-        "text-white",
-        "font-bold",
-        "py-2",
-        "px-4",
-        "rounded",
-        "transition",
-        "duration-300",
-        "ease-in-out",
-        "transform",
-        "hover:scale-105",
-        "mt-4"
+          "bg-red-500",
+          "hover:bg-green-600",
+          "text-white",
+          "font-bold",
+          "py-2",
+          "px-4",
+          "rounded",
+          "transition",
+          "duration-300",
+          "ease-in-out",
+          "transform",
+          "hover:scale-105",
+          "mt-4"
         );
-        finishBtn.addEventListener("click", function(){});
-
+        finishBtn.addEventListener("click", function () {
+          if (score == fullScore) {
+            questio.innerHTML = "";
+            btnsDiv.innerHTML = "";
+            let congDiv = document.createElement("div");
+            let congH1 = document.createElement("h1");
+            congH1.innerHTML =
+              "Congratulations, you have won a free burger! 🤭🎉";
+            congH1.classList.add(
+              "text-yellow-800",
+              "text-2xl",
+              "font-bold",
+              "mb-4"
+            );
+            let congImg = document.createElement("img");
+            congImg.src = "./imgs/suc.gif";
+            congImg.classList.add(
+              "w-44",
+              "h-44",
+              "mx-auto",
+              "rounded-full",
+              "border-4",
+              "border-yellow-800",
+              "shadow-lg",
+              "transform",
+              "hover:scale-110",
+              "transition",
+              "duration-300",
+              "ease-in-out"
+            );
+            let congBtn = document.createElement("button");
+            congBtn.innerHTML = "PLAY AGAIN";
+            congBtn.classList.add(
+              "bg-green-500",
+              "hover:bg-green-600",
+              "text-white",
+              "font-bold",
+              "py-2",
+              "px-4",
+              "rounded",
+              "transition",
+              "duration-300",
+              "ease-in-out",
+              "transform",
+              "hover:scale-105",
+              "mt-4"
+            );
+            congDiv.appendChild(congH1);
+            congDiv.appendChild(congImg);
+            congDiv.appendChild(congBtn);
+            questio.appendChild(congDiv);
+          }
+        });
         questio.appendChild(finishBtn);
-      }
-      else{
+      } else {
         let nextBtn = document.createElement("button");
         nextBtn.innerHTML = "Next";
         nextBtn.classList.add(
-        "bg-green-500",
-        "hover:bg-green-600",
-        "text-white",
-        "font-bold",
-        "py-2",
-        "px-4",
-        "rounded",
-        "transition",
-        "duration-300",
-        "ease-in-out",
-        "transform",
-        "hover:scale-105",
-        "mt-4"
+          "bg-blue-600",
+          "hover:bg-blue-700",
+          "text-white",
+          "font-bold",
+          "py-2",
+          "px-4",
+          "rounded",
+          "transition",
+          "duration-300",
+          "ease-in-out",
+          "transform",
+          "hover:scale-105",
+          "mt-4"
         );
-        nextBtn.addEventListener("click", function(){
+        nextBtn.addEventListener("click", function () {
           currQues++;
-          if(currQues < ques.length){
+          if (currQues < ques.length) {
             questio.innerHTML = "";
             btnsDiv.innerHTML = "";
             updateQuestion();
-          } 
+          }
         });
         questio.appendChild(nextBtn);
       }
-    } );
+    });
     btnsDiv.appendChild(btn);
   });
 
@@ -163,10 +214,6 @@ function start() {
   questio.style.display = "block";
 
   // show the score
-  
- updateQuestion();
+
+  updateQuestion();
 }
-
-
-
-
