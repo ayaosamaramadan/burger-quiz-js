@@ -171,6 +171,57 @@ function updateQuestion() {
             congDiv.appendChild(congBtn);
             questio.appendChild(congDiv);
           }
+          else{
+            questio.innerHTML = "";
+            btnsDiv.innerHTML = "";
+            let loseDiv = document.createElement("div");
+            let loseH1 = document.createElement("h1");
+            loseH1.innerHTML =
+              "OPS TRY AGAIN 😜";
+            loseH1.classList.add(
+              "text-yellow-800",
+              "text-2xl",
+              "font-bold",
+              "mb-4"
+            );
+            let loseImg = document.createElement("img");
+            loseImg.src = "./imgs/trAGAIN.gif";
+            loseImg.classList.add(
+              "w-44",
+              "h-44",
+              "mx-auto",
+              "rounded-full",
+              "border-4",
+              "border-yellow-800",
+              "shadow-lg",
+              "transform",
+              "hover:scale-110",
+              "transition",
+              "duration-300",
+              "ease-in-out"
+            );
+            let loseBtn = document.createElement("button");
+            loseBtn.innerHTML = "PLAY AGAIN";
+            loseBtn.classList.add(
+              "bg-green-500",
+              "hover:bg-green-600",
+              "text-white",
+              "font-bold",
+              "py-2",
+              "px-4",
+              "rounded",
+              "transition",
+              "duration-300",
+              "ease-in-out",
+              "transform",
+              "hover:scale-105",
+              "mt-4"
+            );
+            loseDiv.appendChild(loseH1);
+            loseDiv.appendChild(loseImg);
+            loseDiv.appendChild(loseBtn);
+            questio.appendChild(loseDiv);
+          }
         });
         questio.appendChild(finishBtn);
       } else {
