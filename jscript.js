@@ -58,6 +58,7 @@ let span2 = document.createElement("span");
 let btnsDiv = document.createElement("div");
 let body = document.querySelector("body");
 let topdiv = document.getElementById("topdiv");
+let prog = document.createElement("progress")
 
 function updateQuestion() {
   span1.innerHTML = score + " / ";
@@ -67,6 +68,10 @@ function updateQuestion() {
   span2.classList.add("text-red-500");
   scoreDiv.appendChild(span2);
 
+  prog.setAttribute("value", currQues);
+  prog.setAttribute("max", fullScore);
+  prog.classList.add("w-full", "bg-green-500", "rounded-full", "mb-4");
+  questio.appendChild(prog);
   // show title of the question
   title.innerHTML = ques[currQues].question;
   title.classList.add("text-2xl", "font-bold", "mb-4", "text-neutral-700");
