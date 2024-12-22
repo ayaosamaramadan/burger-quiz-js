@@ -58,7 +58,7 @@ let span2 = document.createElement("span");
 let btnsDiv = document.createElement("div");
 let body = document.querySelector("body");
 let topdiv = document.getElementById("topdiv");
-let prog = document.createElement("progress")
+let prog = document.createElement("progress");
 
 function updateQuestion() {
   span1.innerHTML = score + " / ";
@@ -70,7 +70,7 @@ function updateQuestion() {
 
   prog.setAttribute("value", currQues);
   prog.setAttribute("max", fullScore);
-  prog.classList.add("w-full", "bg-green-500", "rounded-full", "mb-4");
+  prog.classList.add("w-full", "bg-green-500", "rounded-lg");
   questio.appendChild(prog);
   // show title of the question
   title.innerHTML = ques[currQues].question;
@@ -104,9 +104,16 @@ function updateQuestion() {
       }
 
       // disable all buttons after clicking one
-      btnsDiv
-        .querySelectorAll("button")
-        .forEach((button) => (button.disabled = true));
+      btnsDiv.querySelectorAll("button").forEach((button) => {
+        button.disabled = true;
+        if (button.innerHTML == ques[currQues].answer.find((a) => a.correct).text) {
+          button.classList.add("bg-green-600");
+          button.classList.remove("hover:bg-green-600");
+        } else {
+          button.classList.add("bg-red-500");
+          button.classList.remove("hover:bg-green-600");
+        }
+      });
 
       if (ques[currQues] == ques[ques.length - 1]) {
         let finishBtn = document.createElement("button");
