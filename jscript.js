@@ -1,3 +1,4 @@
+// data
 const ques = [
   {
     question: "What is the main ingredient in a classic hamburger?",
@@ -46,6 +47,9 @@ const ques = [
   },
 ];
 
+// variables
+let timer = 46;
+let interval;
 let score = 0;
 let fullScore = ques.length;
 let currQues = 0;
@@ -59,15 +63,40 @@ let btnsDiv = document.createElement("div");
 let body = document.querySelector("body");
 let topdiv = document.getElementById("topdiv");
 let prog = document.createElement("progress");
+let timerP = document.createElement("p");
+let finishBtn = document.createElement("button");
 
 function updateQuestion() {
+  // show the score
   span1.innerHTML = score + " / ";
   scoreDiv.appendChild(span1);
-
   span2.innerHTML = fullScore;
   span2.classList.add("text-red-500");
   scoreDiv.appendChild(span2);
 
+  // show the timer
+  if (interval) {
+    clearInterval(interval);
+  }
+  interval = setInterval(function () {
+    timer--;
+    if (timer <= 0) {
+      clearInterval(interval);
+      handleFinish();
+      timerP.innerHTML = "Time's up!";
+    } else {
+      timerP.innerHTML = `⏰ : ${timer}`;
+    }
+    timerP.classList.add(
+      "text-[20px]",
+      "font-bold",
+      "mb-4",
+      "text-neutral-700"
+    );
+  }, 1000);
+  questio.insertBefore(timerP, questio.firstChild);
+
+  // progress bar
   prog.setAttribute("value", currQues);
   prog.setAttribute("max", fullScore);
   prog.classList.add("w-full", "bg-green-500", "rounded-lg");
@@ -76,10 +105,12 @@ function updateQuestion() {
   title.innerHTML = ques[currQues].question;
   title.classList.add("text-2xl", "font-bold", "mb-4", "text-neutral-700");
   questio.appendChild(title);
-  // show the answers
 
+  // show the answers
   btnsDiv.setAttribute("id", "btns");
   btnsDiv.classList.add("grid", "gap-3");
+
+  // loop through the answers
   ques[currQues].answer.forEach((ans) => {
     let btn = document.createElement("button");
     btn.innerHTML = ans.text;
@@ -97,6 +128,7 @@ function updateQuestion() {
       "transform",
       "hover:scale-105"
     );
+    // check if the answer is correct
     btn.addEventListener("click", function () {
       if (ans.correct) {
         score++;
@@ -106,7 +138,9 @@ function updateQuestion() {
       // disable all buttons after clicking one
       btnsDiv.querySelectorAll("button").forEach((button) => {
         button.disabled = true;
-        if (button.innerHTML == ques[currQues].answer.find((a) => a.correct).text) {
+        if (
+          button.innerHTML == ques[currQues].answer.find((a) => a.correct).text
+        ) {
           button.classList.add("bg-green-600");
           button.classList.remove("hover:bg-green-600");
         } else {
@@ -115,8 +149,8 @@ function updateQuestion() {
         }
       });
 
+      // show the next or finish button
       if (ques[currQues] == ques[ques.length - 1]) {
-        let finishBtn = document.createElement("button");
         finishBtn.innerHTML = "Finish";
         finishBtn.classList.add(
           "bg-red-500",
@@ -134,120 +168,7 @@ function updateQuestion() {
           "mt-4"
         );
         finishBtn.addEventListener("click", function () {
-          if (score == fullScore) {
-            questio.innerHTML = "";
-            btnsDiv.innerHTML = "";
-            let congDiv = document.createElement("div");
-            let congH1 = document.createElement("h1");
-            congH1.innerHTML =
-              "Congratulations, you have won a free burger! 🤭🎉";
-            congH1.classList.add(
-              "text-yellow-800",
-              "text-2xl",
-              "font-bold",
-              "mb-4"
-            );
-            let congImg = document.createElement("img");
-            congImg.src = "./imgs/suc.gif";
-            congImg.classList.add(
-              "w-44",
-              "h-44",
-              "mx-auto",
-              "rounded-full",
-              "border-4",
-              "border-yellow-800",
-              "shadow-lg",
-              "transform",
-              "hover:scale-110",
-              "transition",
-              "duration-300",
-              "ease-in-out"
-            );
-            let congBtn = document.createElement("button");
-            congBtn.innerHTML = "PLAY AGAIN";
-            congBtn.addEventListener("click", function () {
-              score = 0;
-              currQues = 0;
-              questio.innerHTML = "";
-              btnsDiv.innerHTML = "";
-              updateQuestion();
-            });
-            congBtn.classList.add(
-              "bg-green-500",
-              "hover:bg-green-600",
-              "text-white",
-              "font-bold",
-              "py-2",
-              "px-4",
-              "rounded",
-              "transition",
-              "duration-300",
-              "ease-in-out",
-              "transform",
-              "hover:scale-105",
-              "mt-4"
-            );
-            congDiv.appendChild(congH1);
-            congDiv.appendChild(congImg);
-            congDiv.appendChild(congBtn);
-            questio.appendChild(congDiv);
-          } else {
-            questio.innerHTML = "";
-            btnsDiv.innerHTML = "";
-            let loseDiv = document.createElement("div");
-            let loseH1 = document.createElement("h1");
-            loseH1.innerHTML = "OPS TRY AGAIN 😜";
-            loseH1.classList.add(
-              "text-yellow-800",
-              "text-2xl",
-              "font-bold",
-              "mb-4"
-            );
-            let loseImg = document.createElement("img");
-            loseImg.src = "./imgs/trAGAIN.gif";
-            loseImg.classList.add(
-              "w-44",
-              "h-44",
-              "mx-auto",
-              "rounded-full",
-              "border-4",
-              "border-yellow-800",
-              "shadow-lg",
-              "transform",
-              "hover:scale-110",
-              "transition",
-              "duration-300",
-              "ease-in-out"
-            );
-            let loseBtn = document.createElement("button");
-            loseBtn.innerHTML = "PLAY AGAIN";
-            loseBtn.addEventListener("click", function () {
-              score = 0;
-              currQues = 0;
-              questio.innerHTML = "";
-              btnsDiv.innerHTML = "";
-              updateQuestion();
-            });
-            loseBtn.classList.add(
-              "bg-green-500",
-              "hover:bg-green-600",
-              "text-white",
-              "font-bold",
-              "py-2",
-              "px-4",
-              "rounded",
-              "transition",
-              "duration-300",
-              "ease-in-out",
-              "transform",
-              "hover:scale-105",
-              "mt-4"
-            );
-            loseDiv.appendChild(loseH1);
-            loseDiv.appendChild(loseImg);
-            loseDiv.appendChild(loseBtn);
-            questio.appendChild(loseDiv);
-          }
+          handleFinish();
         });
         questio.appendChild(finishBtn);
       } else {
@@ -283,6 +204,117 @@ function updateQuestion() {
   });
 
   questio.appendChild(btnsDiv);
+}
+
+function handleFinish() {
+  if (interval) {
+    clearInterval(interval);
+  }
+  if (score == fullScore) {
+    questio.innerHTML = "";
+    btnsDiv.innerHTML = "";
+    let congDiv = document.createElement("div");
+    let congH1 = document.createElement("h1");
+    congH1.innerHTML = "Congratulations, you have won a free burger! 🤭🎉";
+    congH1.classList.add("text-yellow-800", "text-2xl", "font-bold", "mb-4");
+    let congImg = document.createElement("img");
+    congImg.src = "./imgs/suc.gif";
+    congImg.classList.add(
+      "w-44",
+      "h-44",
+      "mx-auto",
+      "rounded-full",
+      "border-4",
+      "border-yellow-800",
+      "shadow-lg",
+      "transform",
+      "hover:scale-110",
+      "transition",
+      "duration-300",
+      "ease-in-out"
+    );
+    let congBtn = document.createElement("button");
+    congBtn.innerHTML = "PLAY AGAIN";
+    congBtn.addEventListener("click", function () {
+      score = 0;
+      currQues = 0;
+      timer = 46;
+      questio.innerHTML = "";
+      btnsDiv.innerHTML = "";
+      updateQuestion();
+    });
+    congBtn.classList.add(
+      "bg-green-500",
+      "hover:bg-green-600",
+      "text-white",
+      "font-bold",
+      "py-2",
+      "px-4",
+      "rounded",
+      "transition",
+      "duration-300",
+      "ease-in-out",
+      "transform",
+      "hover:scale-105",
+      "mt-4"
+    );
+    congDiv.appendChild(congH1);
+    congDiv.appendChild(congImg);
+    congDiv.appendChild(congBtn);
+    questio.appendChild(congDiv);
+  } else {
+    questio.innerHTML = "";
+    btnsDiv.innerHTML = "";
+    let loseDiv = document.createElement("div");
+    let loseH1 = document.createElement("h1");
+    loseH1.innerHTML = "OPS TRY AGAIN 😜";
+    loseH1.classList.add("text-yellow-800", "text-2xl", "font-bold", "mb-4");
+    let loseImg = document.createElement("img");
+    loseImg.src = "./imgs/trAGAIN.gif";
+    loseImg.classList.add(
+      "w-44",
+      "h-44",
+      "mx-auto",
+      "rounded-full",
+      "border-4",
+      "border-yellow-800",
+      "shadow-lg",
+      "transform",
+      "hover:scale-110",
+      "transition",
+      "duration-300",
+      "ease-in-out"
+    );
+    let loseBtn = document.createElement("button");
+    loseBtn.innerHTML = "PLAY AGAIN";
+    loseBtn.addEventListener("click", function () {
+      score = 0;
+      currQues = 0;
+      timer = 46;
+      questio.innerHTML = "";
+      btnsDiv.innerHTML = "";
+      updateQuestion();
+    });
+    loseBtn.classList.add(
+      "bg-green-500",
+      "hover:bg-green-600",
+      "text-white",
+      "font-bold",
+      "py-2",
+      "px-4",
+      "rounded",
+      "transition",
+      "duration-300",
+      "ease-in-out",
+      "transform",
+      "hover:scale-105",
+      "mt-4"
+    );
+    loseDiv.appendChild(loseH1);
+    loseDiv.appendChild(loseImg);
+    loseDiv.appendChild(loseBtn);
+    questio.appendChild(loseDiv);
+  }
 }
 function start() {
   // hide the start button
