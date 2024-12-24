@@ -48,11 +48,6 @@ const ques = [
 ];
 
 // variables
-let timer = 46;
-let interval;
-let score = 0;
-let fullScore = ques.length;
-let currQues = 0;
 let startBtn = document.getElementById("start");
 let questio = document.getElementById("ques");
 let scoreDiv = document.getElementById("score");
@@ -65,19 +60,68 @@ let topdiv = document.getElementById("topdiv");
 let prog = document.createElement("progress");
 let timerP = document.createElement("p");
 let finishBtn = document.createElement("button");
+let timer = 46;
+let currQues = 0;
+let score = 0;
+let interval;
+let fullScore = ques.length;
+
+function massageStyle(element) {
+  element.classList.add(
+    "bg-green-500",
+    "hover:bg-green-600",
+    "text-white",
+    "font-bold",
+    "py-2",
+    "px-4",
+    "rounded",
+    "transition",
+    "duration-300",
+    "ease-in-out",
+    "transform",
+    "hover:scale-105",
+    "mt-4"
+  );
+}
+
+function start() {
+  // hide the start button
+  startBtn.style.display = "none";
+  // show the questions
+  questio.style.display = "block";
+
+  // update the questions
+  updateQuestion();
+
+  //  add some styles
+  body.style.cssText = "padding-top: 50px;";
+  topdiv.style.cssText = "animation: fadeIn 1s forwards;";
+}
 
 function updateQuestion() {
   // show the score
-  span1.innerHTML = score + " / ";
-  scoreDiv.appendChild(span1);
-  span2.innerHTML = fullScore;
-  span2.classList.add("text-red-500");
-  scoreDiv.appendChild(span2);
+  showScore();
 
+  // show the timer
+  showTimer();
+
+  // progress bar
+  showProg();
+
+  // show title of the question
+  showTitle();
+
+  // show the answers
+  showAnswers();
+}
+
+function showTimer() {
   // show the timer
   if (interval) {
     clearInterval(interval);
   }
+
+  // set the timer
   interval = setInterval(function () {
     timer--;
     if (timer <= 0) {
@@ -94,19 +138,43 @@ function updateQuestion() {
       "text-neutral-700"
     );
   }, 1000);
-  questio.insertBefore(timerP, questio.firstChild);
 
-  // progress bar
+  // add the timer to the question
+  questio.insertBefore(timerP, questio.firstChild);
+}
+
+function showScore() {
+  //  set the score
+  span1.innerHTML = score + " / ";
+  scoreDiv.appendChild(span1);
+  span2.innerHTML = fullScore;
+  span2.classList.add("text-red-500");
+
+  // add the score to the question
+  scoreDiv.appendChild(span2);
+}
+
+function showProg() {
+  // set the progress bar
   prog.setAttribute("value", currQues);
   prog.setAttribute("max", fullScore);
   prog.classList.add("w-full", "bg-green-500", "rounded-lg");
+
+  // add the progress bar to the question
   questio.appendChild(prog);
-  // show title of the question
+}
+
+function showTitle() {
+  // set the title of the question
   title.innerHTML = ques[currQues].question;
   title.classList.add("text-2xl", "font-bold", "mb-4", "text-neutral-700");
-  questio.appendChild(title);
 
-  // show the answers
+  // add the title to the question
+  questio.appendChild(title);
+}
+
+function showAnswers() {
+  // create a div for the buttons
   btnsDiv.setAttribute("id", "btns");
   btnsDiv.classList.add("grid", "gap-3");
 
@@ -203,127 +271,103 @@ function updateQuestion() {
     btnsDiv.appendChild(btn);
   });
 
+  // add the buttons to the question
   questio.appendChild(btnsDiv);
+}
+
+function playAgain() {
+  score = 0;
+  currQues = 0;
+  timer = 46;
+  questio.innerHTML = "";
+  btnsDiv.innerHTML = "";
+}
+
+function congMassage() {
+  let congDiv = document.createElement("div");
+  let congH1 = document.createElement("h1");
+  congH1.innerHTML = "Congratulations, you have won a free burger! 🤭🎉";
+  congH1.classList.add("text-yellow-800", "text-2xl", "font-bold", "mb-4");
+  let congImg = document.createElement("img");
+  congImg.src = "./imgs/suc.gif";
+  congImg.classList.add(
+    "w-44",
+    "h-44",
+    "mx-auto",
+    "rounded-full",
+    "border-4",
+    "border-yellow-800",
+    "shadow-lg",
+    "transform",
+    "hover:scale-110",
+    "transition",
+    "duration-300",
+    "ease-in-out"
+  );
+  let congBtn = document.createElement("button");
+  congBtn.innerHTML = "PLAY AGAIN";
+  congBtn.addEventListener("click", function () {
+    playAgain();
+    updateQuestion();
+  });
+  massageStyle(congBtn);
+
+  congDiv.appendChild(congH1);
+  congDiv.appendChild(congImg);
+  congDiv.appendChild(congBtn);
+  questio.appendChild(congDiv);
+}
+
+function loseMassage() {
+  let loseDiv = document.createElement("div");
+  let loseH1 = document.createElement("h1");
+  loseH1.innerHTML = "OPS TRY AGAIN 😜";
+  loseH1.classList.add("text-yellow-800", "text-2xl", "font-bold", "mb-4");
+  let loseImg = document.createElement("img");
+  loseImg.src = "./imgs/trAGAIN.gif";
+  loseImg.classList.add(
+    "w-44",
+    "h-44",
+    "mx-auto",
+    "rounded-full",
+    "border-4",
+    "border-yellow-800",
+    "shadow-lg",
+    "transform",
+    "hover:scale-110",
+    "transition",
+    "duration-300",
+    "ease-in-out"
+  );
+  // add the play again button
+  let loseBtn = document.createElement("button");
+  loseBtn.innerHTML = "PLAY AGAIN";
+  loseBtn.addEventListener("click", function () {
+    playAgain();
+    updateQuestion();
+  });
+  massageStyle(loseBtn);
+
+  // add the elements to show
+  loseDiv.appendChild(loseH1);
+  loseDiv.appendChild(loseImg);
+  loseDiv.appendChild(loseBtn);
+  questio.appendChild(loseDiv);
 }
 
 function handleFinish() {
   if (interval) {
     clearInterval(interval);
   }
+
+  // hide question and buttons
+  questio.innerHTML = "";
+  btnsDiv.innerHTML = "";
+
+  // show the massage depends on the score
   if (score == fullScore) {
-    questio.innerHTML = "";
-    btnsDiv.innerHTML = "";
-    let congDiv = document.createElement("div");
-    let congH1 = document.createElement("h1");
-    congH1.innerHTML = "Congratulations, you have won a free burger! 🤭🎉";
-    congH1.classList.add("text-yellow-800", "text-2xl", "font-bold", "mb-4");
-    let congImg = document.createElement("img");
-    congImg.src = "./imgs/suc.gif";
-    congImg.classList.add(
-      "w-44",
-      "h-44",
-      "mx-auto",
-      "rounded-full",
-      "border-4",
-      "border-yellow-800",
-      "shadow-lg",
-      "transform",
-      "hover:scale-110",
-      "transition",
-      "duration-300",
-      "ease-in-out"
-    );
-    let congBtn = document.createElement("button");
-    congBtn.innerHTML = "PLAY AGAIN";
-    congBtn.addEventListener("click", function () {
-      score = 0;
-      currQues = 0;
-      timer = 46;
-      questio.innerHTML = "";
-      btnsDiv.innerHTML = "";
-      updateQuestion();
-    });
-    congBtn.classList.add(
-      "bg-green-500",
-      "hover:bg-green-600",
-      "text-white",
-      "font-bold",
-      "py-2",
-      "px-4",
-      "rounded",
-      "transition",
-      "duration-300",
-      "ease-in-out",
-      "transform",
-      "hover:scale-105",
-      "mt-4"
-    );
-    congDiv.appendChild(congH1);
-    congDiv.appendChild(congImg);
-    congDiv.appendChild(congBtn);
-    questio.appendChild(congDiv);
+    congMassage();
   } else {
-    questio.innerHTML = "";
-    btnsDiv.innerHTML = "";
-    let loseDiv = document.createElement("div");
-    let loseH1 = document.createElement("h1");
-    loseH1.innerHTML = "OPS TRY AGAIN 😜";
-    loseH1.classList.add("text-yellow-800", "text-2xl", "font-bold", "mb-4");
-    let loseImg = document.createElement("img");
-    loseImg.src = "./imgs/trAGAIN.gif";
-    loseImg.classList.add(
-      "w-44",
-      "h-44",
-      "mx-auto",
-      "rounded-full",
-      "border-4",
-      "border-yellow-800",
-      "shadow-lg",
-      "transform",
-      "hover:scale-110",
-      "transition",
-      "duration-300",
-      "ease-in-out"
-    );
-    let loseBtn = document.createElement("button");
-    loseBtn.innerHTML = "PLAY AGAIN";
-    loseBtn.addEventListener("click", function () {
-      score = 0;
-      currQues = 0;
-      timer = 46;
-      questio.innerHTML = "";
-      btnsDiv.innerHTML = "";
-      updateQuestion();
-    });
-    loseBtn.classList.add(
-      "bg-green-500",
-      "hover:bg-green-600",
-      "text-white",
-      "font-bold",
-      "py-2",
-      "px-4",
-      "rounded",
-      "transition",
-      "duration-300",
-      "ease-in-out",
-      "transform",
-      "hover:scale-105",
-      "mt-4"
-    );
-    loseDiv.appendChild(loseH1);
-    loseDiv.appendChild(loseImg);
-    loseDiv.appendChild(loseBtn);
-    questio.appendChild(loseDiv);
+    loseMassage();
   }
-}
-function start() {
-  // hide the start button
-  startBtn.style.display = "none";
-  // show the questions
-  questio.style.display = "block";
-
-  updateQuestion();
-
-  body.style.cssText = "padding-top: 50px;";
-  topdiv.style.cssText = "animation: fadeIn 1s forwards;";
 }
